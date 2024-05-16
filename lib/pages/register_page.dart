@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/components/my_button.dart';
 import 'package:food_delivery_app/components/my_textfield.dart';
+import 'package:food_delivery_app/services/auth/auth_service.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
@@ -14,6 +15,30 @@ class _RegisterPageState extends State<RegisterPage> {
   final email = TextEditingController();
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
+
+  void register() async {
+    final authService = AuthService();
+
+    if (password.text == confirmPassword.text) {
+      try {
+        await authService.signUpWithEmailAndPassword(email.text, password.text);
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(e.toString()),
+          ),
+        );
+      }
+    }else{
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Password don't match!"),
+          ),
+        );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +80,11 @@ class _RegisterPageState extends State<RegisterPage> {
               obascureText: true,
             ),
             const SizedBox(height: 10),
-            MyButton(onTap: () {}, title: 'Sing Up'),
+            MyButton(
+                onTap: () {
+                  register();
+                },
+                title: 'Sing Up'),
             const SizedBox(height: 25),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

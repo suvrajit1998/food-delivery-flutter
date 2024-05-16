@@ -64,40 +64,43 @@ class _PaymentPageState extends State<PaymentPage> {
         foregroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Checkout'),
       ),
-      body: Column(
-        children: [
-          CreditCardWidget(
-            cardNumber: cardNumber,
-            expiryDate: expiryDate,
-            cardHolderName: cardHolderName,
-            cvvCode: cvvCode,
-            showBackView: isCvvFocused,
-            onCreditCardWidgetChange: (p0) {},
-          ),
-          CreditCardForm(
-            cardNumber: cardNumber,
-            expiryDate: expiryDate,
-            cardHolderName: cardHolderName,
-            cvvCode: cvvCode,
-            onCreditCardModelChange: (data) {
-              cardNumber = data.cardNumber;
-              expiryDate = data.expiryDate;
-              cardHolderName = data.cardHolderName;
-              cvvCode = data.cvvCode;
-              if (mounted) {
-                setState(() {});
-              }
-            },
-            formKey: formKey,
-          ),
-          const Spacer(),
-          MyButton(
-              onTap: () {
-                userTapPay();
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CreditCardWidget(
+              cardNumber: cardNumber,
+              expiryDate: expiryDate,
+              cardHolderName: cardHolderName,
+              cvvCode: cvvCode,
+              showBackView: isCvvFocused,
+              onCreditCardWidgetChange: (p0) {},
+            ),
+            CreditCardForm(
+              cardNumber: cardNumber,
+              expiryDate: expiryDate,
+              cardHolderName: cardHolderName,
+              cvvCode: cvvCode,
+              onCreditCardModelChange: (data) {
+                cardNumber = data.cardNumber;
+                expiryDate = data.expiryDate;
+                cardHolderName = data.cardHolderName;
+                cvvCode = data.cvvCode;
+                if (mounted) {
+                  setState(() {});
+                }
               },
-              title: 'Pay now'),
-          const SizedBox(height: 25),
-        ],
+              formKey: formKey,
+            ),
+            const SizedBox(height: 100),
+            // const Spacer(),
+            MyButton(
+                onTap: () {
+                  userTapPay();
+                },
+                title: 'Pay now'),
+            const SizedBox(height: 25),
+          ],
+        ),
       ),
     );
   }
